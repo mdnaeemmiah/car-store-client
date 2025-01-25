@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useEffect, useState } from 'react';
-import { Carousel, Button } from 'antd';
+import { Carousel, Button, Grid } from 'antd';
 import img1 from '../../../assets/images/img10.avif';
 import img2 from '../../../assets/images/img11.avif';
 
@@ -30,6 +30,8 @@ const buttonStyle: React.CSSProperties = {
 
 const Carousels = () => {
   const [currentImage, setCurrentImage] = useState<string>(img1);
+  const { useBreakpoint } = Grid;
+  const screens = useBreakpoint();
 
   useEffect(() => {
     const imageChangeInterval = setInterval(() => {
@@ -42,7 +44,13 @@ const Carousels = () => {
   const slides = [img1, img2];
 
   return (
-    <div style={{ marginTop: '40px' }}>
+    <div
+      style={{
+        marginTop: '40px',
+        paddingLeft: screens.md ? '100px' : '20px',
+        paddingRight: screens.md ? '100px' : '20px',
+      }}
+    >
       <Carousel effect="fade" autoplay>
         {slides.map((slide, index) => (
           <div key={index}>
@@ -52,11 +60,7 @@ const Carousels = () => {
                 alt={`carousel-slide-${index}`}
                 className="carousel-image"
               />
-              <Button
-                style={buttonStyle}
-              >
-                Learn More
-              </Button>
+              <Button style={buttonStyle}>Learn More</Button>
             </div>
           </div>
         ))}
@@ -69,6 +73,7 @@ const Carousels = () => {
             width: 100%;
             object-fit: cover;
             height: 300px; /* Default height for smaller devices */
+            
           }
 
           @media (min-width: 1025px) and (max-width: 1440px) {

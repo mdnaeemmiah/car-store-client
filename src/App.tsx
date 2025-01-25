@@ -1,13 +1,12 @@
-import Carousels from "./components/layout/shared/Carousels"
-import Navbar from "./components/layout/shared/Navbar"
+
+import MainLayout from "./components/layout/MainLayout"
 
 
 function App() {
 
   return (
     <>
-       <Navbar></Navbar>
-       <Carousels></Carousels>
+      <MainLayout></MainLayout>
     </>
   )
 }

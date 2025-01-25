@@ -1,6 +1,7 @@
 import { Layout, Menu, Button, Grid, Drawer } from 'antd';
 import { UserOutlined, LoginOutlined, MenuOutlined } from '@ant-design/icons';
 import  { useState } from 'react';
+import { NavLink } from 'react-router-dom';
 
 const { Header } = Layout;
 const { useBreakpoint } = Grid;
@@ -42,7 +43,7 @@ const Navbar = () => {
             }}
           >
             <Menu.Item key="1" style={{ fontWeight: '500' }}>
-              <span style={{ color: 'white' }}>Home</span>
+              <NavLink to='/' style={{ color: 'white' }}>Home</NavLink>
             </Menu.Item>
             <Menu.Item key="2" style={{ fontWeight: '500' }}>
               <span style={{ color: 'white' }}>All Products</span>
@@ -71,7 +72,7 @@ const Navbar = () => {
 
         {screens.md && (
           <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-            <Button
+            <NavLink to='/login'><Button
               type="primary"
               icon={<LoginOutlined />}
               style={{
@@ -80,7 +81,7 @@ const Navbar = () => {
               }}
             >
               Login
-            </Button>
+            </Button></NavLink>
             <Button
               type="default"
               icon={<UserOutlined />}
@@ -89,7 +90,7 @@ const Navbar = () => {
                 fontWeight: '500',
               }}
             >
-              Sign Up
+              Logout
             </Button>
           </div>
         )}
