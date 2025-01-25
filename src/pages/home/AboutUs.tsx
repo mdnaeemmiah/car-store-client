@@ -1,9 +1,10 @@
-import React from 'react';
+
+import Accordion from './Accordion';
 
 const AboutUs = () => {
     return (
         <div>
-            <h2>aboutus</h2>
+            <Accordion></Accordion>
         </div>
     );
 };

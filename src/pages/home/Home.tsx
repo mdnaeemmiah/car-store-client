@@ -1,9 +1,10 @@
+import Carousels from "@/components/layout/shared/Carousels";
 
 
 const Home = () => {
     return (
         <div>
-            <h2>home</h2>
+            <Carousels></Carousels>
         </div>
     );
 };
