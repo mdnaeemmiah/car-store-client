@@ -1,22 +1,25 @@
 import { Layout, Menu, Button, Grid, Drawer, Row, Col, notification } from 'antd';
 import { LoginOutlined, MenuOutlined } from '@ant-design/icons';
 import { useState } from 'react';
-import { NavLink, Outlet } from 'react-router-dom';
+import { NavLink, Outlet, useNavigate } from 'react-router-dom';
 import { useAppDispatch } from '@/redux/hooks';
 import { logout } from '@/redux/features/auth/atuhSlice';
 
 const { Header, Content, Footer } = Layout;
 const { useBreakpoint } = Grid;
 
+
 const Navbar = () => {
   const dispatch = useAppDispatch();
   const screens = useBreakpoint();
+  const navigate = useNavigate();
   const [isDrawerVisible, setDrawerVisible] = useState(false);
 
   const toggleDrawer = () => setDrawerVisible(!isDrawerVisible);
 
   const handleLogout = () => {
     dispatch(logout());
+    navigate('/')
     notification.success({
       message: 'Logout Successful',
       description: 'You have successfully logged out.',

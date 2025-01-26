@@ -1,90 +1,158 @@
-import  { useState } from "react";
-import {  Input, Select, InputNumber, Button, Form, Space } from "antd";
+import { Form, Input, InputNumber, Button, Select, Upload, Row, Col, Space, message } from 'antd';
+import { UploadOutlined } from '@ant-design/icons';
+import React from 'react';
 
 const { Option } = Select;
 
-interface ICar {
-  brand: string;
-  model: string;
-  year: number;
-  price: number;
-  category: "Sedan" | "SUV" | "Truck" | "Coupe" | "Convertible";
-  description: string;
-  quantity: number;
-  inStock: boolean;
-  createdAt?: Date;
-  updatedAt?: Date;
-}
-
 const CreateCar = () => {
-  const [cars, setCars] = useState<ICar[]>([]);
-  const [form] = Form.useForm();
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const [fileList, setFileList] = React.useState<any>([]);
 
-  const handleAddCar = (values: ICar) => {
-    setCars((prev) => [...prev, { ...values, createdAt: new Date() }]);
-    form.resetFields();
+  const onFinish = () => {
+    console.log('Form values:');
+  };
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const handleChange = (info: any) => {
+    let fileList = [...info.fileList];
+
+    // Limit the number of files uploaded to 1
+    fileList = fileList.slice(-1);
+
+    // Display error if file is not image
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    fileList = fileList.map((file: any) => {
+      if (file.status === 'error') {
+        message.error(`${file.name} file upload failed.`);
+      }
+      return file;
+    });
+
+    setFileList(fileList);
   };
 
   return (
-    <div>
-      <Form form={form} layout="vertical" onFinish={handleAddCar} style={{ marginBottom: "20px" }}>
-        <Space direction="vertical" style={{ width: "100%" }}>
-          <Space>
-            <Form.Item name="brand" label="Brand" rules={[{ required: true, message: "Brand is required" }]}>
-              <Input placeholder="Enter car brand" />
-            </Form.Item>
-            <Form.Item name="model" label="Model" rules={[{ required: true, message: "Model is required" }]}>
-              <Input placeholder="Enter car model" />
-            </Form.Item>
-            <Form.Item name="year" label="Year" rules={[{ required: true, message: "Year is required" }]}>
-              <InputNumber placeholder="Year" min={1900} max={new Date().getFullYear()} />
-            </Form.Item>
-            <Form.Item name="price" label="Price" rules={[{ required: true, message: "Price is required" }]}>
-              <InputNumber
-                placeholder="Price"
-                formatter={(value) => `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
-                parser={(value) => Number(value?.replace(/\$\s?|(,*)/g, ""))}
-                min={0}
-              />
-            </Form.Item>
-          </Space>
-
-          <Space>
-            <Form.Item name="category" label="Category" rules={[{ required: true, message: "Category is required" }]}>
-              <Select placeholder="Select category">
-                <Option value="Sedan">Sedan</Option>
-                <Option value="SUV">SUV</Option>
-                <Option value="Truck">Truck</Option>
-                <Option value="Coupe">Coupe</Option>
-                <Option value="Convertible">Convertible</Option>
-              </Select>
-            </Form.Item>
-            <Form.Item name="quantity" label="Quantity" rules={[{ required: true, message: "Quantity is required" }]}>
-              <InputNumber placeholder="Quantity" min={0} />
-            </Form.Item>
-            <Form.Item name="inStock" label="In Stock" rules={[{ required: true, message: "In Stock is required" }]}>
-              <Select placeholder="Select stock status">
-                <Option value={true}>Yes</Option>
-                <Option value={false}>No</Option>
-              </Select>
-            </Form.Item>
-          </Space>
-
-          <Form.Item name="description" label="Description">
-            <Input.TextArea placeholder="Enter car description" rows={3} />
+    <Form
+      layout="vertical"
+      onFinish={onFinish}
+      initialValues={{
+        category: 'Sedan',
+        quantity: 1,
+        stock: 10,
+      }}
+    >
+      <Row gutter={16}>
+        <Col span={12}>
+          <Form.Item
+            label="Brand"
+            name="brand"
+            rules={[{ required: true, message: 'Please input the brand!' }]}>
+            <Input placeholder="Enter car brand" />
           </Form.Item>
+        </Col>
+        <Col span={12}>
+          <Form.Item
+            label="Model"
+            name="model"
+            rules={[{ required: true, message: 'Please input the model!' }]}>
+            <Input placeholder="Enter car model" />
+          </Form.Item>
+        </Col>
+      </Row>
 
-          <Button type="primary" htmlType="submit">
-            Add Car
-          </Button>
-        </Space>
-      </Form>
+      <Row gutter={16}>
+        <Col span={12}>
+          <Form.Item
+            label="Year"
+            name="year"
+            rules={[{ required: true, message: 'Please input the year!' }]}>
+            <InputNumber placeholder="Enter manufacturing year" style={{ width: '100%' }} />
+          </Form.Item>
+        </Col>
+        <Col span={12}>
+          <Form.Item
+            label="Price"
+            name="price"
+            rules={[{ required: true, message: 'Please input the price!' }]}>
+            <InputNumber placeholder="Enter price" style={{ width: '100%' }} />
+          </Form.Item>
+        </Col>
+      </Row>
 
-     
-    </div>
+      <Form.Item
+        label="Category"
+        name="category"
+        rules={[{ required: true, message: 'Please select the category!' }]}>
+        <Select placeholder="Select car category">
+          <Option value="Sedan">Sedan</Option>
+          <Option value="SUV">SUV</Option>
+          <Option value="Truck">Truck</Option>
+          <Option value="Coupe">Coupe</Option>
+          <Option value="Convertible">Convertible</Option>
+        </Select>
+      </Form.Item>
+
+      <Row gutter={16}>
+        <Col span={12}>
+          <Form.Item
+            label="Quantity"
+            name="quantity"
+            rules={[{ required: true, message: 'Please input the quantity!' }]}>
+            <InputNumber placeholder="Enter quantity" style={{ width: '100%' }} />
+          </Form.Item>
+        </Col>
+        <Col span={12}>
+          <Form.Item
+            label="Stock"
+            name="stock"
+            rules={[{ required: true, message: 'Please input the stock!' }]}>
+            <InputNumber placeholder="Enter stock" style={{ width: '100%' }} />
+          </Form.Item>
+        </Col>
+      </Row>
+
+      <Form.Item
+        label="Description"
+        name="description"
+        rules={[{ required: true, message: 'Please provide a description!' }]}>
+        <Input.TextArea placeholder="Enter a detailed description" rows={4} />
+      </Form.Item>
+
+      <Row gutter={16}>
+        <Col span={12}>
+          <Form.Item
+            label="Car Image"
+            name="imageUrl">
+            <Upload
+              name="imageUrl"
+              listType="picture"
+              action="/upload"
+              showUploadList={false}
+              fileList={fileList}
+              onChange={handleChange}
+            >
+              <Button icon={<UploadOutlined />}>Upload Image</Button>
+            </Upload>
+            {fileList.length > 0 && (
+              <div style={{ marginTop: 8 }}>
+                <strong>Uploaded File:</strong> {fileList[0]?.name}
+              </div>
+            )}
+          </Form.Item>
+        </Col>
+      </Row>
+
+      <Form.Item>
+        <div style={{ textAlign: 'center' }}>
+          <Space>
+            <Button type="primary" htmlType="submit">
+              Submit
+            </Button>
+          </Space>
+        </div>
+      </Form.Item>
+    </Form>
   );
 };
 
 export default CreateCar;
-
-
