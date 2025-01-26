@@ -7,7 +7,10 @@ import Contact from '@/pages/home/Contact';
 import Home from '@/pages/home/Home';
 import Login from '@/pages/Login';
 import Register from '@/pages/Register';
+import { routeGenerator } from '@/utils/routeGenerator';
 import { createBrowserRouter } from 'react-router-dom';
+import { adminPaths } from './admin.route';
+import { userPaths } from './user.route';
 
 
 const router = createBrowserRouter([
@@ -16,7 +19,7 @@ const router = createBrowserRouter([
       element:<App></App>,
       children:[
          {
-            path:'home',
+            path:'',
             element:<Home></Home>
           },
          {
@@ -33,6 +36,16 @@ const router = createBrowserRouter([
           },
       ]
    },
+   {
+      path: '/admin',
+      element: <Dashboard />,
+      children: routeGenerator(adminPaths),
+   },
+   {
+      path: '/user',
+      element: <Dashboard />,
+      children: routeGenerator(userPaths),
+    },
    {
     path:'/login',
     element:<Login></Login>
