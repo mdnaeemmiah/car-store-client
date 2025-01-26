@@ -1,24 +1,17 @@
-import UserDashboard from "@/Dashboard/DPages/User/UserDashboard";
+import AccountDetails from "@/Dashboard/DPages/User/AccountDetails";
+import OrderHistory from "@/Dashboard/DPages/User/OrderHistory";
+
 
 export const userPaths=[
     {
-        name: 'user',
-        path: 'user',
-        element: <UserDashboard />,
+        name: 'Order History ',
+        path: 'order-history',
+        element: <OrderHistory></OrderHistory>
     },
     {
-        name: 'All',
-        path: 'dashboard',
-        element: <UserDashboard />,
+        name: 'Account Details.',
+        path: 'account-details',
+        element: <AccountDetails></AccountDetails>
     },
-    {
-        name: 'Ami',
-        path: 'dashboard',
-        element: <UserDashboard />,
-    },
-    {
-        name: 'Tumi',
-        path: 'dashboard',
-        element: <UserDashboard />,
-    },
+    
 ]

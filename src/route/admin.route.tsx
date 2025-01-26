@@ -6,6 +6,11 @@ import CreateCar from "@/Dashboard/DPages/Admin/ManageOrders/CreateCar";
 
 export const adminPaths=[
     {
+        name: 'Dashboard',
+        path: 'dashboard',
+        element: <AdminDashboard />,
+    },
+    {
         name: 'create Car',
         path: 'crete-car',
         element: <CreateCar></CreateCar>
@@ -20,9 +25,5 @@ export const adminPaths=[
         path: 'all-order',
         element: <AllOrder></AllOrder>
     },
-    {
-        name: 'Dashboard',
-        path: 'dashboard',
-        element: <AdminDashboard />,
-    },
+ 
 ]
