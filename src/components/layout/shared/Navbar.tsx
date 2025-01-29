@@ -19,7 +19,7 @@ const Navbar = () => {
 
   const handleLogout = () => {
     dispatch(logout());
-    navigate('/')
+    navigate('/login')
     notification.success({
       message: 'Logout Successful',
       description: 'You have successfully logged out.',

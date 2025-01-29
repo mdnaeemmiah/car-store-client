@@ -48,6 +48,8 @@ const cartItems: CartItem[] = [
   // Add more items as needed
 ];
 const AllProduct = () => {
+   
+
     return (
         <div style={{ padding: '20px' }}>
       <Title level={2}>Your Cart</Title>

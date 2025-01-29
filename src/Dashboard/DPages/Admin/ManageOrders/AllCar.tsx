@@ -1,70 +1,127 @@
-import React from 'react';
-import { Space, Table, Tag } from 'antd';
-import type { TableProps } from 'antd';
+import { useGetAllCarsQuery } from '@/redux/features/admin/carManagement.Api';
+import { ICar } from '@/types/car.type';
+import { TQueryParam } from '@/types/global';
+import { Button, Space, Table, TableColumnsType, TableProps } from 'antd';
+import { useState } from 'react';
 
-interface DataType {
-  key: string;
-  name: string;
-  age: number;
-  address: string;
-  tags: string[];
-}
+export type TTableData = Pick<ICar, 'model' | 'brand' | 'category' | 'imageUrl'>;
 
-const columns: TableProps<DataType>['columns'] = [
-  {
-    title: 'Car Image',
-    dataIndex: 'name',
-    key: 'name',
-    render: (text) => <a>{text}</a>,
-  },
-  {
-    title: 'Model',
-    dataIndex: 'age',
-    key: 'age',
-  },
-  {
-    title: 'Stack',
-    dataIndex: 'address',
-    key: 'address',
-  },
-  {
-    title: 'Action',
-    key: 'action',
-    render: () => (
-      <Space size="middle">
-        <a>Update</a>
-        <a>Delete</a>
-      </Space>
-    ),
-  },
-];
+const AllCar = () => {
+  const [params, setParams] = useState<TQueryParam[]>([]);
+  const [page, setPage] = useState(1);
+  const {
+    data: carData,
+    isLoading,
+    isFetching,
+  } = useGetAllCarsQuery([
+    { name: 'page', value: page },
+    { name: 'sort', value: 'id' },
+    ...params,
+  ]);
 
-const data: DataType[] = [
-  {
-    key: '1',
-    name: 'John Brown',
-    age: 32,
-    address: 'New York No. 1 Lake Park',
-    tags: ['nice', 'developer'],
-  },
-  {
-    key: '2',
-    name: 'Jim Green',
-    age: 42,
-    address: 'London No. 1 Lake Park',
-    tags: ['loser'],
-  },
-  {
-    key: '3',
-    name: 'Joe Black',
-    age: 32,
-    address: 'Sydney No. 1 Lake Park',
-    tags: ['cool', 'teacher'],
-  },
-];
+  console.log({ isLoading, isFetching });
 
-const AllCar: React.FC = () =>
-     <Table<DataType> columns={columns} dataSource={data} />;
+  const metaData = carData?.meta;
+
+  const tableData = carData?.data?.map(({ _id, model, brand, category, imageUrl }) => ({
+    key: _id,
+    model,
+    brand,
+    category,
+    imageUrl,
+  }));
+
+  // Extract unique filter values
+  const modelFilters = [
+    ...new Set(carData?.data?.map((item) => item.model) || []),
+  ].map((model) => ({ text: model, value: model }));
+
+  const brandFilters = [
+    ...new Set(carData?.data?.map((item) => item.brand) || []),
+  ].map((brand) => ({ text: brand, value: brand }));
+
+  const categoryFilters = [
+    ...new Set(carData?.data?.map((item) => item.category) || []),
+  ].map((category) => ({ text: category, value: category }));
+
+  const columns: TableColumnsType<TTableData> = [
+    {
+      title: 'Image',
+      key: 'imageUrl',
+      dataIndex: 'imageUrl',
+      render: (url) => <img src={url} alt="Car" style={{ width: '100px', height: 'auto' }} />,
+    },
+    {
+      title: 'Brand',
+      key: 'brand',
+      dataIndex: 'brand',
+      filters: brandFilters,
+      onFilter: (value, record) => record.brand === value,
+    },
+    {
+      title: 'Model',
+      key: 'model',
+      dataIndex: 'model',
+      filters: modelFilters,
+      onFilter: (value, record) => record.model === value,
+    },
+    {
+      title: 'Category',
+      key: 'category',
+      dataIndex: 'category',
+      filters: categoryFilters,
+      onFilter: (value, record) => record.category === value,
+    },
+    {
+      title: 'Action',
+      key: 'x',
+      render: (item) => (
+        <Space>
+          <Button>Details</Button>
+          <Button>Delete</Button>
+        </Space>
+      ),
+      width: '1%',
+    },
+  ];
+
+  const onChange: TableProps<TTableData>['onChange'] = (pagination, filters) => {
+    const queryParams: TQueryParam[] = [];
+
+    if (filters.brand) {
+      filters.brand.forEach((brand) =>
+        queryParams.push({ name: 'brand', value: brand })
+      );
+    }
+    if (filters.model) {
+      filters.model.forEach((model) =>
+        queryParams.push({ name: 'model', value: model })
+      );
+    }
+    if (filters.category) {
+      filters.category.forEach((category) =>
+        queryParams.push({ name: 'category', value: category })
+      );
+    }
+
+    setParams(queryParams);
+    setPage(pagination.current || 1); // Update the page when pagination changes
+  };
+
+  return (
+    <Table
+      loading={isFetching}
+      columns={columns}
+      dataSource={tableData}
+      onChange={onChange}
+      pagination={{
+        current: page,
+        pageSize: metaData?.limit || 8,
+        total: metaData?.total || 0,
+        showSizeChanger: false, // Optional: Disable page size changer
+      }}
+    />
+  );
+};
 
 export default AllCar;
-

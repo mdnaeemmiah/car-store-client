@@ -42,9 +42,25 @@ const PHForm = ({
 
   return (
     <FormProvider {...methods}>
-      <Form layout="vertical" onFinish={methods.handleSubmit(submit)}>
-        {children}
-      </Form>
+      <div style={{width:500}}>
+      <Form
+          layout="vertical"
+          onFinish={methods.handleSubmit(submit)}
+          style={{
+            width: '100%',
+            maxWidth: '600px',
+            height: 'auto',
+            minHeight: '400px',
+            padding: '30px',
+            background: '#fff',
+            borderRadius: '10px',
+            boxShadow: '0 6px 15px rgba(0, 0, 0, 0.15)', // Enhanced shadow effect
+          }}
+        > 
+       <h2 style={{ textAlign: 'center', fontWeight: 'bold', fontSize:30}}>Login Now</h2>
+          {children}
+        </Form>
+      </div>
     </FormProvider>
   );
 };

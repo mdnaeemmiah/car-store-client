@@ -30,16 +30,10 @@ const reviews: Review[] = [
     comment: 'Amazing experience! Will definitely buy again. The product exceeded my expectations.',
   },
   {
-    name: 'Mark Johnson',
-    image: 'src/assets/images/img13.jpeg',
-    rating: 5,
-    comment: 'Amazing experience! Will definitely buy again. The product exceeded my expectations.',
-  },
-  {
-    name: 'Mark Johnson',
+    name: 'Emily Davis',
     image: 'src/assets/images/img13.jpeg',
     rating: 4,
-    comment: 'Amazing experience! Will definitely buy again. The product exceeded my expectations.',
+    comment: 'The product was good, but packaging could be better. Still worth it!',
   },
   {
     name: 'Mark Johnson',
@@ -47,18 +41,23 @@ const reviews: Review[] = [
     rating: 5,
     comment: 'Amazing experience! Will definitely buy again. The product exceeded my expectations.',
   },
-  // Add more reviews as needed
+  {
+    name: 'Emily Davis',
+    image: 'src/assets/images/img13.jpeg',
+    rating: 4,
+    comment: 'The product was good, but packaging could be better. Still worth it!',
+  },
 ];
 
 const CustomerReviewBanner = () => {
   return (
-    <div style={{ padding: '20px', margin: '0 80px' }}>
-      <Title level={2} style={{ textAlign: 'center' }}>
+    <div style={{ padding: '20px', margin: '0 auto', maxWidth: '1200px' }}>
+      <Title level={2} style={{ textAlign: 'center', marginBottom: '30px' }}>
         What Our Customers Are Saying
       </Title>
-      <Row gutter={[16, 16]} justify="center">
+      <Row gutter={[16, 24]} justify="center">
         {reviews.map((review, index) => (
-          <Col xs={24} sm={12} md={8} key={index}>
+          <Col xs={24} sm={12} md={8} lg={6} key={index}>
             <Card
               hoverable
               style={{
@@ -66,6 +65,7 @@ const CustomerReviewBanner = () => {
                 boxShadow: '0 4px 10px rgba(0, 0, 0, 0.1)',
                 padding: '20px',
                 textAlign: 'center',
+                height: '100%',
               }}
             >
               <Avatar
@@ -74,7 +74,7 @@ const CustomerReviewBanner = () => {
                 alt={review.name}
                 style={{ marginBottom: '15px' }}
               />
-              <Title level={4} style={{ marginBottom: '10px' }}>
+              <Title level={4} style={{ marginBottom: '10px', fontSize: '18px' }}>
                 {review.name}
               </Title>
               <Rate
@@ -83,7 +83,7 @@ const CustomerReviewBanner = () => {
                 character={<StarFilled style={{ color: '#fadb14' }} />}
               />
               <div style={{ marginTop: '10px' }}>
-                <Text>{review.comment}</Text>
+                <Text style={{ fontSize: '14px' }}>{review.comment}</Text>
               </div>
             </Card>
           </Col>

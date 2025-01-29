@@ -152,7 +152,7 @@
 import { Button, Row } from 'antd';
 import { FieldValues } from 'react-hook-form';
 import { useAppDispatch } from '../redux/hooks';
-import { useNavigate } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
 import { useLoginMutation } from '@/redux/features/auth/atuhApi';
 import { verifyToken } from '@/utils/veryfyToken';
@@ -165,10 +165,10 @@ const Login = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
-  const defaultValues = {
-    email: 'sdsf@sddeftdddxddadxddmsle.com',
-    password: '32sd4ddffdstfssdasadsaaasdsdfdss',
-  };
+  // const defaultValues = {
+  //   email: 'sdsf@sddeftdddxddadxddmsle.com',
+  //   password: '32sd4ddffdstfssdasadsaaasdsdfdss',
+  // };
 
   const [login] = useLoginMutation();
 
@@ -187,19 +187,35 @@ const Login = () => {
       toast.success('Logged in', { id: toastId, duration: 2000 });
       navigate(`/`);
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    } catch (err) {
-      toast.error('Something went wrong', { id: toastId, duration: 2000 });
+    } catch (err:any) {
+      toast.error(err?.data?.message || 'Something went wrong', { id: toastId, duration: 2000 });
     }
   };
 
   return (
-    <Row justify="center" align="middle" style={{ height: '100vh' }}>
-      <PHForm onSubmit={onSubmit} defaultValues={defaultValues}>
-        <PHInput type="text" name="email" label="email:" />
+    <div style={{height:600}}>
+      <Row justify="center" align="middle" style={{ height: '100vh' }}>
+      <PHForm onSubmit={onSubmit} >
+        <PHInput  type="text" name="email" label="email:" />
         <PHInput type="text" name="password" label="Password" />
-        <Button htmlType="submit">Login</Button>
+        <Button
+            htmlType="submit"
+            style={{
+              width: '90%',
+              backgroundColor: '#4096FF',
+              color: 'white',
+              margin:'0 20px',
+              padding: '18px 0',
+            }}
+          >
+            Login
+          </Button>
+      <div style={{ margin: '13px 20px 0' }}>
+      or <NavLink to="/register">Register  now!</NavLink>
+      </div>
       </PHForm>
     </Row>
+    </div>
   );
 };
 
