@@ -1,60 +1,49 @@
 import { useState } from 'react';
-import { Form, Input, InputNumber, Button, Select, Row, Col, Space } from 'antd';
+import { Form, Input, InputNumber, Button, Select, Row, Col, Space, Upload } from 'antd';
 import { useCreateCarMutation } from '@/redux/features/admin/carManagement.Api';
 import { FieldValues, SubmitHandler } from 'react-hook-form';
 import { toast } from 'sonner';
+import { UploadOutlined } from '@ant-design/icons';
 import axios from 'axios';
-import { ImSpinner9 } from "react-icons/im";
 
 const { Option } = Select;
 
+const CLOUDINARY_URL = 'https://api.cloudinary.com/v1_1/db9egbkam/image/upload';
+const CLOUDINARY_UPLOAD_PRESET = 'naeemmiah';
+
 const CreateCar = () => {
   const [createCar] = useCreateCarMutation();
-  const [imageUrl, setImageUrl] = useState<string | null>(null);
-  const [preview, setPreview] = useState(null);
-  const [imgLoading, setImgLoading] = useState(false);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [imageUrl, setImageUrl] = useState<string>('');
 
-  // ImageBB API Key
-  const IMAGEBB_API_KEY = 'b3876efcf3dde5da0a26b59df9da8615';
-
-  // Handle Image Upload
-  const handleImage = async (e) => {
-    const imageFile = e.target.files[0];
-
-    if (!imageFile) {
-        console.log("No image selected");
-        return;
-    }
-
-    console.log("Selected File:", imageFile);
-
+  const handleImageUpload = async (file: File) => {
+    setLoading(true);
     const formData = new FormData();
-    formData.append("image", imageFile); 
-
-    console.log("FormData content:", [...formData.entries()]);
+    formData.append('file', file);
+    formData.append('upload_preset', CLOUDINARY_UPLOAD_PRESET);
 
     try {
+      const response = await axios.post(CLOUDINARY_URL, formData, {
+        headers: { 'Content-Type': 'multipart/form-data' },
+      });
 
-        const response = await fetch(`https://api.imgbb.com/1/upload?expiration=600&key=b3876efcf3dde5da0a26b59df9da8615`, {
-            method: "POST",
-            body: formData
-        });
-
-        const result = await response.json();
-        
-        if (result.success) {
-            console.log("Uploaded Image URL:", result.data.url);
-        } else {
-            console.error("Upload failed:", result);
-        }
+      setImageUrl(response.data.secure_url);
+      toast.success('Image uploaded successfully');
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
-        console.error("Error uploading image:", error);
+      toast.error('Image upload failed');
+    } finally {
+      setLoading(false);
     }
   };
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
-    const toastId = toast.loading('Creating...');
+    if (!imageUrl) {
+      toast.error('Please upload an image');
+      return;
+    }
 
+    const toastId = toast.loading('Creating...');
     const carData = {
       brand: data.brand,
       model: data.model,
@@ -64,31 +53,20 @@ const CreateCar = () => {
       description: data.description,
       quantity: data.quantity,
       stock: data.stock,
-      imageUrl: imageUrl || '', // Ensure imageUrl is included
+      imageUrl,
     };
 
     try {
-      const res = await createCar(carData);
-      if (res.error) {
-        toast.error(res?.error?.data?.message, { id: toastId });
-      } else {
-        toast.success('Car created successfully', { id: toastId });
-      }
+      await createCar(carData).unwrap();
+      toast.success('Car created successfully', { id: toastId });
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (err) {
       toast.error('Something went wrong while creating the car', { id: toastId });
     }
   };
 
   return (
-    <Form
-      layout="vertical"
-      onFinish={onSubmit}
-      initialValues={{
-        category: 'Sedan',
-        quantity: 1,
-        stock: 10,
-      }}
-    >
+    <Form layout="vertical" onFinish={onSubmit} initialValues={{ category: 'Sedan', quantity: 1, stock: 10 }}>
       <Row gutter={16}>
         <Col span={12}>
           <Form.Item label="Brand" name="brand" rules={[{ required: true, message: 'Please input the brand!' }]}>
@@ -142,43 +120,24 @@ const CreateCar = () => {
         <Input.TextArea placeholder="Enter a detailed description" rows={4} />
       </Form.Item>
 
-      <Form.Item >
-      <div className="flex flex-col mx-auto text-center">
-                <label>
-                  {imgLoading ? (
-                    <ImSpinner9 className="animate-spin m-auto" size={24} />
-                  ) : (
-                    <input
-                      className="text-sm cursor-pointer hidden"
-                      type="file"
-                      name="image"
-                      onChange={handleImage}
-                      id="image"
-                      accept="image/*"
-                      hidden
-                    />
-                  )}
-                  {/* <div
-                    // disabled={imgLoading}
-                    className={`${
-                      imgLoading &&
-                      "bg-rose-200 disabled:bg-gray-200 disabled:cursor-not-allowed"
-                    } bg-rose-500 text-white border border-gray-300 rounded font-semibold cursor-pointer p-1 px-3 bg-[#FF407D]`}
-                  >
-                    Upload Imageddddddddd
-                  </div> */}
-                  {preview && (
-                    <img
-                      className="w-36 mt-3 h-20 object-cover rounded"
-                      src={preview}
-                      alt=""
-                    />
-                  )}
-                </label>
-              </div>
+      <Form.Item label="Car Image">
+        <Upload
+          beforeUpload={(file) => {
+            handleImageUpload(file);
+            return false;
+          }}
+          showUploadList={false}
+        >
+          <Button icon={<UploadOutlined />} loading={loading}>
+            {loading ? 'Uploading...' : 'Upload Image'}
+          </Button>
+        </Upload>
+        {imageUrl && (
+          <div style={{ marginTop: '10px', textAlign: 'center' }}>
+            <img src={imageUrl} alt="Car" style={{ width: '50%', maxWidth: '60px', borderRadius: '8px' }} />
+          </div>
+        )}
       </Form.Item>
-
-      
 
       <Form.Item>
         <div style={{ textAlign: 'center' }}>

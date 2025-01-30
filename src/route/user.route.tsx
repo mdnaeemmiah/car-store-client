@@ -1,12 +1,13 @@
 import AccountDetails from "@/Dashboard/DPages/User/AccountDetails";
 import OrderHistory from "@/Dashboard/DPages/User/OrderHistory";
+import UDashboard from "@/Dashboard/DPages/User/UDashboard";
 
 
 export const userPaths=[
     {
         name: 'Dashboard ',
         path: 'dashboard',
-        element: <OrderHistory></OrderHistory>
+        element: <UDashboard></UDashboard>
     },
     {
         name: 'Order History ',

@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { Carousel, Button, Grid } from 'antd';
 import img1 from '../../../assets/images/img10.avif';
 import img2 from '../../../assets/images/img11.avif';
+import { NavLink } from 'react-router-dom';
 
 const contentStyle: React.CSSProperties = {
   display: 'flex',
@@ -60,7 +61,7 @@ const Carousels = () => {
                 alt={`carousel-slide-${index}`}
                 className="carousel-image"
               />
-              <Button style={buttonStyle}>Learn More</Button>
+            <NavLink to='/product'><Button style={buttonStyle}>More Car</Button></NavLink>
             </div>
           </div>
         ))}

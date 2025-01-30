@@ -1,5 +1,5 @@
 import { Layout, Menu, Button, Grid, Drawer, Row, Col, notification, Dropdown, Avatar } from 'antd';
-import { LoginOutlined, UserOutlined } from '@ant-design/icons';
+import { LoginOutlined, MenuOutlined, UserOutlined } from '@ant-design/icons';
 import { NavLink, Outlet, useNavigate } from 'react-router-dom';
 import { logout, selectCurrentUser } from '@/redux/features/auth/atuhSlice';
 
@@ -187,7 +187,6 @@ const CartContainer = () => {
 
 
 const { Header, Content, Footer } = Layout;
-
 const Navbar = () => {
   const user = useAppSelector(selectCurrentUser);
   const dispatch = useAppDispatch();
@@ -229,12 +228,12 @@ const Navbar = () => {
           padding: screens.md ? '0 100px' : '0 20px',
         }}
       >
-        <div>
-          <span style={{ color: 'white', fontSize: '20px', fontWeight: 'bold' }}>
-            Car Store
-          </span>
-        </div>
+        {/* LOGO */}
+        <NavLink to="/">
+          <span style={{ color: 'white', fontSize: '20px', fontWeight: 'bold' }}>Car Store</span>
+        </NavLink>
 
+        {/* Desktop Menu */}
         {screens.md && (
           <Menu theme="dark" mode="horizontal" style={{ flex: 1, justifyContent: 'center' }}>
             <Menu.Item key="1"><NavLink to="/" style={{ color: 'white' }}>Home</NavLink></Menu.Item>
@@ -244,32 +243,50 @@ const Navbar = () => {
           </Menu>
         )}
 
-      {screens.md && user ? (
-     <Dropdown overlay={menuItems} placement="bottomRight">
-    <Avatar 
-      style={{ backgroundColor: 'orange', cursor: 'pointer' }}  
-      size="large" 
-      icon={<UserOutlined />} 
-    />
-    </Dropdown>
-   ) : (
-    <NavLink to="/login">
-    <Button type="primary" icon={<LoginOutlined />}>Login</Button>
-    </NavLink>
-     )}
+        {/* User Section (Desktop) */}
+        {screens.md && user ? (
+          <Dropdown overlay={menuItems} placement="bottomRight">
+            <Avatar style={{ backgroundColor: '#1677FF', cursor: 'pointer' }} size="large" icon={<UserOutlined />} />
+          </Dropdown>
+        ) : (
+          screens.md && (
+            <NavLink to="/login">
+              <Button type="primary" icon={<LoginOutlined />}>Login</Button>
+            </NavLink>
+          )
+        )}
+
+        {/* Mobile Menu Button */}
+        {!screens.md && (
+          <Button type="text" icon={<MenuOutlined />} onClick={toggleDrawer} style={{ color: 'white' }} />
+        )}
       </Header>
 
-      {/* Drawer for Small Screens */}
+      {/* Mobile Drawer */}
       <Drawer title="Menu" placement="right" onClose={toggleDrawer} open={isDrawerVisible}>
         <Menu mode="vertical" theme="light">
           <Menu.Item key="1"><NavLink to="/">Home</NavLink></Menu.Item>
           <Menu.Item key="2"><NavLink to="/product">Products</NavLink></Menu.Item>
           <Menu.Item key="3"><NavLink to="/about">About Us</NavLink></Menu.Item>
-          <Menu.Item key="4"><NavLink to={`/${userRole}/dashboard`}>Dashboard</NavLink></Menu.Item>
+          <Menu.Item key="4"><CartContainer /></Menu.Item>
+          {user ? (
+            <>
+              <Menu.Item key="dashboard">
+                <NavLink to={`/${userRole}/dashboard`}>Dashboard</NavLink>
+              </Menu.Item>
+              <Menu.Item key="logout" onClick={handleLogout}>Logout</Menu.Item>
+            </>
+          ) : (
+            <Menu.Item key="login">
+              <NavLink to="/login">
+                <Button type="primary" icon={<LoginOutlined />}>Login</Button>
+              </NavLink>
+            </Menu.Item>
+          )}
         </Menu>
       </Drawer>
 
-      {/* Content */}
+      {/* Page Content */}
       <Content style={{ flex: 1, padding: '20px' }}>
         <Outlet />
       </Content>
