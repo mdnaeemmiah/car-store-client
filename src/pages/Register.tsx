@@ -26,14 +26,22 @@ const Register = () => {
         password: data.password,
       };
       const res = await register(userInfo).unwrap();
-      const user = verifyToken(res.data.accessToken) as TUser;
-      console.log(user)
-      dispatch(setUser({ user, token: res.data.accessToken }));
-      toast.success('Registration successful', { id: toastId, duration: 2000 });
-      navigate(`/`);
-    } catch (err:any) {
-      toast.error(err?.data?.message || 'Something went wrong dfg', { id: toastId, duration: 2000 });
-    }
+  // console.log('API Response:', res); // Debugging API response
+
+  if (!res?.data?.accessToken) {
+    throw new Error('No accessToken received');
+  }
+
+  const user = verifyToken(res.data.accessToken) as TUser;
+  // console.log('Decoded User:', user);
+  
+  dispatch(setUser({ user, token: res.data.accessToken }));
+  toast.success('Registration successful', { id: toastId, duration: 2000 });
+  navigate('/');
+} catch (err) {
+  // console.error('Registration error:', err);
+  toast.error(err?.message || 'Something went wrong', { id: toastId, duration: 2000 });
+}
   };
 
   return (

@@ -1,37 +1,54 @@
 import { useState } from 'react';
-import { Form, Input, InputNumber, Button, Select, Row, Col, Space, Upload } from 'antd';
+import { Form, Input, InputNumber, Button, Select, Row, Col, Space } from 'antd';
 import { useCreateCarMutation } from '@/redux/features/admin/carManagement.Api';
 import { FieldValues, SubmitHandler } from 'react-hook-form';
 import { toast } from 'sonner';
-import { UploadOutlined } from '@ant-design/icons';
 import axios from 'axios';
+import { ImSpinner9 } from "react-icons/im";
 
 const { Option } = Select;
 
 const CreateCar = () => {
   const [createCar] = useCreateCarMutation();
   const [imageUrl, setImageUrl] = useState<string | null>(null);
+  const [preview, setPreview] = useState(null);
+  const [imgLoading, setImgLoading] = useState(false);
 
   // ImageBB API Key
-  const IMAGEBB_API_KEY = '87257ff001089ad0825d46f7f1846bb8';
+  const IMAGEBB_API_KEY = 'b3876efcf3dde5da0a26b59df9da8615';
 
   // Handle Image Upload
-  const handleImageUpload = async (file: File) => {
+  const handleImage = async (e) => {
+    const imageFile = e.target.files[0];
+
+    if (!imageFile) {
+        console.log("No image selected");
+        return;
+    }
+
+    console.log("Selected File:", imageFile);
+
     const formData = new FormData();
-    formData.append('image', file);
+    formData.append("image", imageFile); 
+
+    console.log("FormData content:", [...formData.entries()]);
 
     try {
-      const res = await axios.post(
-        `https://api.imgbb.com/1/upload?key=${IMAGEBB_API_KEY}`,
-        formData
-      );
-      // console.log(res)
-      const imageUrl = res.data.data.image.url;
-      setImageUrl(imageUrl);
-      toast.success('Image uploaded successfully');
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+
+        const response = await fetch(`https://api.imgbb.com/1/upload?expiration=600&key=b3876efcf3dde5da0a26b59df9da8615`, {
+            method: "POST",
+            body: formData
+        });
+
+        const result = await response.json();
+        
+        if (result.success) {
+            console.log("Uploaded Image URL:", result.data.url);
+        } else {
+            console.error("Upload failed:", result);
+        }
     } catch (error) {
-      toast.error('Failed to upload image');
+        console.error("Error uploading image:", error);
     }
   };
 
@@ -47,18 +64,18 @@ const CreateCar = () => {
       description: data.description,
       quantity: data.quantity,
       stock: data.stock,
-      imageUrl: imageUrl, // Add image URL
+      imageUrl: imageUrl || '', // Ensure imageUrl is included
     };
-  console.log(imageUrl)
+
     try {
       const res = await createCar(carData);
       if (res.error) {
         toast.error(res?.error?.data?.message, { id: toastId });
       } else {
-        toast.success('Car created', { id: toastId });
+        toast.success('Car created successfully', { id: toastId });
       }
     } catch (err) {
-      toast.error('Something went wrong', { id: toastId });
+      toast.error('Something went wrong while creating the car', { id: toastId });
     }
   };
 
@@ -74,20 +91,12 @@ const CreateCar = () => {
     >
       <Row gutter={16}>
         <Col span={12}>
-          <Form.Item
-            label="Brand"
-            name="brand"
-            rules={[{ required: true, message: 'Please input the brand!' }]}
-          >
+          <Form.Item label="Brand" name="brand" rules={[{ required: true, message: 'Please input the brand!' }]}>
             <Input placeholder="Enter car brand" />
           </Form.Item>
         </Col>
         <Col span={12}>
-          <Form.Item
-            label="Model"
-            name="model"
-            rules={[{ required: true, message: 'Please input the model!' }]}
-          >
+          <Form.Item label="Model" name="model" rules={[{ required: true, message: 'Please input the model!' }]}>
             <Input placeholder="Enter car model" />
           </Form.Item>
         </Col>
@@ -95,30 +104,18 @@ const CreateCar = () => {
 
       <Row gutter={16}>
         <Col span={12}>
-          <Form.Item
-            label="Year"
-            name="year"
-            rules={[{ required: true, message: 'Please input the year!' }]}
-          >
+          <Form.Item label="Year" name="year" rules={[{ required: true, message: 'Please input the year!' }]}>
             <InputNumber placeholder="Enter manufacturing year" style={{ width: '100%' }} />
           </Form.Item>
         </Col>
         <Col span={12}>
-          <Form.Item
-            label="Price"
-            name="price"
-            rules={[{ required: true, message: 'Please input the price!' }]}
-          >
+          <Form.Item label="Price" name="price" rules={[{ required: true, message: 'Please input the price!' }]}>
             <InputNumber placeholder="Enter price" style={{ width: '100%' }} />
           </Form.Item>
         </Col>
       </Row>
 
-      <Form.Item
-        label="Category"
-        name="category"
-        rules={[{ required: true, message: 'Please select the category!' }]}
-      >
+      <Form.Item label="Category" name="category" rules={[{ required: true, message: 'Please select the category!' }]}>
         <Select placeholder="Select car category">
           <Option value="Sedan">Sedan</Option>
           <Option value="SUV">SUV</Option>
@@ -130,53 +127,63 @@ const CreateCar = () => {
 
       <Row gutter={16}>
         <Col span={12}>
-          <Form.Item
-            label="Quantity"
-            name="quantity"
-            rules={[{ required: true, message: 'Please input the quantity!' }]}
-          >
+          <Form.Item label="Quantity" name="quantity" rules={[{ required: true, message: 'Please input the quantity!' }]}>
             <InputNumber placeholder="Enter quantity" style={{ width: '100%' }} />
           </Form.Item>
         </Col>
         <Col span={12}>
-          <Form.Item
-            label="Stock"
-            name="stock"
-            rules={[{ required: true, message: 'Please input the stock!' }]}
-          >
+          <Form.Item label="Stock" name="stock" rules={[{ required: true, message: 'Please input the stock!' }]}>
             <InputNumber placeholder="Enter stock" style={{ width: '100%' }} />
           </Form.Item>
         </Col>
       </Row>
 
-      <Form.Item
-        label="Description"
-        name="description"
-        rules={[{ required: true, message: 'Please provide a description!' }]}
-      >
+      <Form.Item label="Description" name="description" rules={[{ required: true, message: 'Please provide a description!' }]}>
         <Input.TextArea placeholder="Enter a detailed description" rows={4} />
       </Form.Item>
 
-      <Form.Item
-        label="Upload Image"
-        name="image"
-        rules={[{ required: true, message: 'Please upload an image!' }]}
-      >
-        <Upload
-          beforeUpload={(file) => {
-            handleImageUpload(file);
-            return false; // Prevent automatic upload
-          }}
-          showUploadList={false}
-        >
-          <Button icon={<UploadOutlined />}>Click to Upload</Button>
-        </Upload>
+      <Form.Item >
+      <div className="flex flex-col mx-auto text-center">
+                <label>
+                  {imgLoading ? (
+                    <ImSpinner9 className="animate-spin m-auto" size={24} />
+                  ) : (
+                    <input
+                      className="text-sm cursor-pointer hidden"
+                      type="file"
+                      name="image"
+                      onChange={handleImage}
+                      id="image"
+                      accept="image/*"
+                      hidden
+                    />
+                  )}
+                  {/* <div
+                    // disabled={imgLoading}
+                    className={`${
+                      imgLoading &&
+                      "bg-rose-200 disabled:bg-gray-200 disabled:cursor-not-allowed"
+                    } bg-rose-500 text-white border border-gray-300 rounded font-semibold cursor-pointer p-1 px-3 bg-[#FF407D]`}
+                  >
+                    Upload Imageddddddddd
+                  </div> */}
+                  {preview && (
+                    <img
+                      className="w-36 mt-3 h-20 object-cover rounded"
+                      src={preview}
+                      alt=""
+                    />
+                  )}
+                </label>
+              </div>
       </Form.Item>
+
+      
 
       <Form.Item>
         <div style={{ textAlign: 'center' }}>
           <Space>
-            <Button type="primary" htmlType="submit" >
+            <Button type="primary" htmlType="submit">
               Submit
             </Button>
           </Space>

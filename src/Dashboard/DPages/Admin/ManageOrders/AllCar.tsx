@@ -75,7 +75,7 @@ const AllCar = () => {
     {
       title: 'Action',
       key: 'x',
-      render: (item) => (
+      render: () => (
         <Space>
           <Button>Details</Button>
           <Button>Delete</Button>
