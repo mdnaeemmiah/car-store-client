@@ -13,13 +13,13 @@ interface Review {
 const reviews: Review[] = [
   {
     name: 'John Doe',
-    image: 'src/assets/images/img13.jpeg',
+    image: 'src/assets/images/na.jpg',
     rating: 5,
     comment: 'Great product! Really happy with the performance and quality. Highly recommend it.',
   },
   {
     name: 'Jane Smith',
-    image: 'src/assets/images/img13.jpeg',
+    image: 'src/assets/images/laila.jpg',
     rating: 4,
     comment: 'Good quality, but the delivery was a bit slow. Overall, satisfied with the purchase.',
   },
@@ -31,19 +31,19 @@ const reviews: Review[] = [
   },
   {
     name: 'Emily Davis',
-    image: 'src/assets/images/img13.jpeg',
+    image: 'src/assets/images/na.jpg',
     rating: 4,
     comment: 'The product was good, but packaging could be better. Still worth it!',
   },
   {
     name: 'Mark Johnson',
-    image: 'src/assets/images/img13.jpeg',
+    image: 'src/assets/images/na.jpg',
     rating: 5,
     comment: 'Amazing experience! Will definitely buy again. The product exceeded my expectations.',
   },
   {
     name: 'Emily Davis',
-    image: 'src/assets/images/img13.jpeg',
+    image: 'src/assets/images/laila.jpg',
     rating: 4,
     comment: 'The product was good, but packaging could be better. Still worth it!',
   },
@@ -51,8 +51,15 @@ const reviews: Review[] = [
 
 const CustomerReviewBanner = () => {
   return (
-    <div style={{ padding: '20px', margin: '0 auto', maxWidth: '1200px' }}>
-      <Title level={2} style={{ textAlign: 'center', marginBottom: '30px' }}>
+    <div style={{ padding: '20px', margin: '0 auto', maxWidth: '1200px', textAlign: 'center' }}>
+      <Title level={2} style={{
+                fontSize: '30px',
+                fontWeight: 'bold',
+                color: '#1677FF',
+                textShadow: '2px 2px 20px rgba(0, 25, 0, 0.8)', // Orange shadow effect
+                marginTop: '30px',
+                marginBottom:'30px'
+            }}>
         What Our Customers Are Saying
       </Title>
       <Row gutter={[16, 24]} justify="center">

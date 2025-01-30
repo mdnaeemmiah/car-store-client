@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useEffect, useState } from 'react';
 import { Carousel, Button, Grid } from 'antd';
-import img1 from '../../../assets/images/img10.avif';
-import img2 from '../../../assets/images/img11.avif';
+import img1 from '../../../assets/images/img5.avif';
+import img2 from '../../../assets/images//img6.avif';
 import { NavLink } from 'react-router-dom';
 
 const contentStyle: React.CSSProperties = {
@@ -11,7 +11,7 @@ const contentStyle: React.CSSProperties = {
   alignItems: 'center',
   background: '#364d79',
   overflow: 'hidden',
-  position: 'relative', // Added for positioning the button
+  position: 'relative',
 };
 
 const buttonStyle: React.CSSProperties = {
@@ -37,9 +37,9 @@ const Carousels = () => {
   useEffect(() => {
     const imageChangeInterval = setInterval(() => {
       setCurrentImage((prevImage) => (prevImage === img1 ? img2 : img1));
-    }, 5000); // Change image every 5 seconds
+    }, 5000);
 
-    return () => clearInterval(imageChangeInterval); // Cleanup interval on unmount
+    return () => clearInterval(imageChangeInterval);
   }, []);
 
   const slides = [img1, img2];
@@ -47,7 +47,9 @@ const Carousels = () => {
   return (
     <div
       style={{
+        margin: '0 auto', // Centering the div (mx-auto equivalent)
         marginTop: '40px',
+        maxWidth: '1400px', // Optional: Limits width
         paddingLeft: screens.md ? '100px' : '20px',
         paddingRight: screens.md ? '100px' : '20px',
       }}
@@ -61,31 +63,31 @@ const Carousels = () => {
                 alt={`carousel-slide-${index}`}
                 className="carousel-image"
               />
-            <NavLink to='/product'><Button style={buttonStyle}>More Car</Button></NavLink>
+              <NavLink to="/product">
+                <Button style={buttonStyle}>More Car</Button>
+              </NavLink>
             </div>
           </div>
         ))}
       </Carousel>
 
-      {/* Add CSS styles to handle responsive height */}
       <style>
         {`
           .carousel-image {
             width: 100%;
             object-fit: cover;
-            height: 300px; /* Default height for smaller devices */
-            
+            height: 300px;
           }
 
           @media (min-width: 1025px) and (max-width: 1440px) {
             .carousel-image {
-              height: 600px; /* Height for medium-large devices */
+              height: 600px;
             }
           }
 
           @media (min-width: 1441px) {
             .carousel-image {
-              height: 800px; /* Height for large devices */
+              height: 800px;
             }
           }
         `}

@@ -67,8 +67,14 @@ const AllProduct = () => {
  
 
   return (
-    <div className="container mx-auto p-6">
-      <h2 className="text-2xl font-bold mb-6">Available Products</h2>
+    <div className="container mx-auto p-6" style={{textAlign:'center'}}>
+      <h2 className="text-2xl font-bold mb-6" style={{
+                fontSize: '30px',
+                fontWeight: 'bold',
+                color: '#1677FF',
+                textShadow: '2px 2px 20px rgba(0, 25, 0, 0.8)', // Orange shadow effect
+                marginBottom: '40px'
+            }}>Available Products</h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
         {paginatedProducts.map((product) => (
           <Card key={product._id} className="shadow-md">

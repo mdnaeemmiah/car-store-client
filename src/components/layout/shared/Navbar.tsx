@@ -1,5 +1,5 @@
 import { Layout, Menu, Button, Grid, Drawer, Row, Col, notification, Dropdown, Avatar } from 'antd';
-import { LoginOutlined, MenuOutlined, UserOutlined } from '@ant-design/icons';
+import { FacebookOutlined, InstagramOutlined, LoginOutlined, MenuOutlined, TwitterOutlined, UserOutlined } from '@ant-design/icons';
 import { NavLink, Outlet, useNavigate } from 'react-router-dom';
 import { logout, selectCurrentUser } from '@/redux/features/auth/atuhSlice';
 
@@ -293,30 +293,41 @@ const Navbar = () => {
 
       {/* Footer */}
       <Footer style={{ background: '#001529', color: 'white', textAlign: 'left', padding: '20px 50px' }}>
-        <Row justify="start" gutter={[16, 16]} align="top">
-          <Col xs={24} sm={12} md={8}>
-            <h3 style={{ color: '#fff' }}>About Us</h3>
-            <p>We provide excellent services and products to our customers.</p>
-          </Col>
-          <Col xs={24} sm={12} md={8}>
-            <h3 style={{ color: '#fff' }}>Contact</h3>
-            <p>Email: contact@company.com</p>
-            <p>Phone: +123 456 789</p>
-            <p>Address: 123 Business Street, City</p>
-          </Col>
-          <Col xs={24} sm={12} md={8}>
-            <h3 style={{ color: '#fff' }}>Follow Us</h3>
-            <p>
-              <a href="#" style={{ color: '#1DA1F2', marginRight: '10px' }}>Twitter</a>
-              <a href="#" style={{ color: '#4267B2', marginRight: '10px' }}>Facebook</a>
-              <a href="#" style={{ color: '#E1306C' }}>Instagram</a>
-            </p>
-          </Col>
-        </Row>
-        <div style={{ marginTop: '20px', textAlign: 'center' }}>
-          Ant Design ©{new Date().getFullYear()} Created by Ant UED
-        </div>
-      </Footer>
+  <Row justify="space-between" gutter={[16, 16]} align="top">
+    <Col xs={24} sm={12} md={8}>
+      <h3 style={{ color: '#fff', fontWeight: 'bold' }}>About Us</h3>
+      <p>We provide excellent services and products to our customers.</p>
+      <p>We provide excellent services and customers.</p>
+      <p>hello provide excellent services and products to our customers.</p>
+    </Col>
+    <Col xs={24} sm={12} md={8}>
+      <h3 style={{ color: '#fff', fontWeight: 'bold' }}>Contact</h3>
+      <p>Email: contact@company.com</p>
+      <p>Phone: +123 456 789</p>
+      <p>Address: 123 Business Street, City</p>
+    </Col>
+    <Col xs={24} sm={12} md={8}>
+      <h3 style={{ color: '#fff', fontWeight: 'bold' }}>Follow Us</h3>
+      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
+        <a href="#" style={{ color: '#1DA1F2', marginBottom: '10px' }}>
+          <TwitterOutlined style={{ fontSize: '24px', marginRight: '10px' }} />
+          Twitter
+        </a>
+        <a href="#" style={{ color: '#4267B2', marginBottom: '10px' }}>
+          <FacebookOutlined style={{ fontSize: '24px', marginRight: '10px' }} />
+          Facebook
+        </a>
+        <a href="#" style={{ color: '#E1306C' }}>
+          <InstagramOutlined style={{ fontSize: '24px', marginRight: '10px' }} />
+          Instagram
+        </a>
+      </div>
+    </Col>
+  </Row>
+  <div style={{ marginTop: '20px', textAlign: 'center' }}>
+    Ant Design ©{new Date().getFullYear()} Created by Ant NAEEMCAR
+  </div>
+</Footer>
     </Layout>
   );
 };

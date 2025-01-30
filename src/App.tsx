@@ -1,16 +1,11 @@
-
-
-
-import MainLayout from "./components/layout/MainLayout"
-
+import MainLayout from "./components/layout/MainLayout";
 
 function App() {
-
   return (
-    <>
-      <MainLayout></MainLayout>
-    </>
-  )
+    <div style={{ maxWidth: '1280px', margin: '0 auto' }}>
+      <MainLayout />
+    </div>
+  );
 }
 
-export default App
+export default App;
