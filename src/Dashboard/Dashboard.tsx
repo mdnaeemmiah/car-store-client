@@ -2,7 +2,7 @@ import DMainlayout from "./DLayout/DMainlayout";
 
 const Dashboard = () => {
     return (
-        <div>
+        <div >
            <DMainlayout></DMainlayout>
         </div>
     );

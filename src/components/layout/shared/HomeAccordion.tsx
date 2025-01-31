@@ -44,7 +44,7 @@ const HomeAccordion = () => {
   ];
 
   return (
-    <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '20px',textAlign:'center' }}>
+    <div style={{ maxWidth: '1100px', margin: '0 auto', padding: '20px',textAlign:'center' }}>
       <h2  style={{
                 fontSize: '30px',
                 fontWeight: 'bold',

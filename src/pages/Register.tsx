@@ -38,7 +38,8 @@ const Register = () => {
   dispatch(setUser({ user, token: res.data.accessToken }));
   toast.success('Registration successful', { id: toastId, duration: 2000 });
   navigate('/');
-} catch (err) {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+} catch (err:any) {
   // console.error('Registration error:', err);
   toast.error(err?.message || 'Something went wrong', { id: toastId, duration: 2000 });
 }

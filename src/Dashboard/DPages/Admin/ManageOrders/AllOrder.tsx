@@ -1,8 +1,9 @@
 import Skeleton from "@/components/Skeleton/Skeleton";
-import { Badge } from "@/components/ui/badge";
-import { useGetOrdersQuery } from "@/redux/features/order/order";
+import { useGetOrdersQuery, useOrderStatusMutation } from "@/redux/features/order/order";
 import { IOrder } from "@/types/car.type";
-import { Table } from "antd";
+import { Table, Button, Dropdown, Menu } from "antd";
+import { useState } from "react";
+import { toast } from "sonner"; // For notifications
 
 export interface Transaction {
   id: string;
@@ -33,12 +34,46 @@ export interface Order {
 }
 
 export default function AllOrder() {
-  const { isFetching ,isLoading, data } = useGetOrdersQuery(undefined, {
-    refetchOnMountOrArgChange: true,
+  const { isFetching, isLoading, data, refetch } = useGetOrdersQuery(undefined, {
+    refetchOnMountOrArgChange: true, // Ensure latest data is fetched
   });
-  console.log(data)
 
-  const orderData: IOrder[] = data?.data;
+  const [updateOrderStatus] = useOrderStatusMutation(); // Mutation for updating status
+
+  const orderData: IOrder[] = data?.data || [];
+  
+  // State to manage updated statuses
+  const [statuses, setStatuses] = useState<{ [key: string]: string }>({});
+
+  // Handle status change
+  const handleStatusChange = async (orderId: string, newStatus: string) => {
+    try {
+      // Update the UI immediately
+      setStatuses((prev) => ({ ...prev, [orderId]: newStatus }));
+
+      // Send request to update the order status in the database
+      await updateOrderStatus({ id: orderId, status: newStatus }).unwrap();
+      
+      // Refetch orders from API to get the latest data
+      refetch();
+
+      toast.success(`Order status changed to ${newStatus}`);
+    } catch (error) {
+      console.error("Failed to update order status:", error);
+      toast.error("Failed to update order status. Please try again.");
+    }
+  };
+
+  // Dropdown menu for changing status
+  const renderStatusMenu = (orderId: string) => (
+    <Menu>
+      {["Pending", "Paid", "Shipped", "Completed", "Cancelled"].map((status) => (
+        <Menu.Item key={status} onClick={() => handleStatusChange(orderId, status)}>
+          {status}
+        </Menu.Item>
+      ))}
+    </Menu>
+  );
 
   const columns = [
     {
@@ -56,9 +91,16 @@ export default function AllOrder() {
       title: "Status",
       dataIndex: "status",
       key: "status",
-      render: (status: string) => (
-        <Badge variant={status === "Pending" ? "outline" : "default"}>{status}</Badge>
-      ),
+      render: (status: string, record: IOrder) => {
+        // Use the updated status from state if available
+        const currentStatus = statuses[record._id] || status;
+
+        return (
+          <Dropdown overlay={renderStatusMenu(record._id)} trigger={['hover']}>
+            <Button>{currentStatus}</Button>
+          </Dropdown>
+        );
+      },
     },
     {
       title: "Transaction ID",
@@ -72,15 +114,11 @@ export default function AllOrder() {
       render: (products: Product[]) => (
         <div>
           {products?.length > 0 ? (
-            products.map((product) =>
-              product ? (
-                <div key={product._id}>
-                  <p> {product.quantity}</p>
-                </div>
-              ) : (
-                <p>No product details available</p>
-              )
-            )
+            products.map((product) => (
+              <div key={product._id}>
+                <p>{product.quantity}</p>
+              </div>
+            ))
           ) : (
             <p>No products</p>
           )}
@@ -92,11 +130,11 @@ export default function AllOrder() {
   return isLoading ? (
     <Skeleton />
   ) : (
-    <Table 
-    loading={isFetching}
-    columns={columns}
-    dataSource={orderData}
-    
+    <Table
+      loading={isFetching}
+      columns={columns}
+      dataSource={orderData}
+      rowKey="_id" // Ensures unique row key for each order
     />
   );
 }

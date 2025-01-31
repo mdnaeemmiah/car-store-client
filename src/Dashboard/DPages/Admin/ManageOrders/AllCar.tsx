@@ -1,18 +1,24 @@
-import { useGetAllCarsQuery } from '@/redux/features/admin/carManagement.Api';
+import { useDeleteCarMutation, useGetAllCarsQuery } from '@/redux/features/admin/carManagement.Api';
 import { ICar } from '@/types/car.type';
 import { TQueryParam } from '@/types/global';
 import { Button, Space, Table, TableColumnsType, TableProps } from 'antd';
 import { useState } from 'react';
+import { toast } from 'sonner'; // Import Sonner's toast
 
-export type TTableData = Pick<ICar, 'model' | 'brand' | 'category' | 'imageUrl'>;
-
+export type TTableData = Pick<ICar, 'model' | 'brand' | 'category' | 'imageUrl'> & {
+  key: string; // Add the `key` property
+};
 const AllCar = () => {
   const [params, setParams] = useState<TQueryParam[]>([]);
   const [page, setPage] = useState(1);
+
+  const [deleteCar] = useDeleteCarMutation(); // Destructure the mutation hook
+
   const {
     data: carData,
     isLoading,
     isFetching,
+    refetch, // Add refetch to refresh the car list after deletion
   } = useGetAllCarsQuery([
     { name: 'page', value: page },
     { name: 'sort', value: 'id' },
@@ -43,6 +49,18 @@ const AllCar = () => {
   const categoryFilters = [
     ...new Set(carData?.data?.map((item) => item.category) || []),
   ].map((category) => ({ text: category, value: category }));
+
+  // Handle delete action
+  const handleDelete = async (id: string) => {
+    try {
+      await deleteCar(id).unwrap(); // Trigger the delete mutation
+      refetch(); // Refresh the car list after deletion
+      toast.success('Car deleted successfully!'); // Show success notification
+    } catch (error) {
+      console.error('Failed to delete car:', error);
+      toast.error('Failed to delete car. Please try again.'); // Show error notification
+    }
+  };
 
   const columns: TableColumnsType<TTableData> = [
     {
@@ -75,10 +93,9 @@ const AllCar = () => {
     {
       title: 'Action',
       key: 'x',
-      render: () => (
+      render: (_, record) => (
         <Space>
-          <Button>Details</Button>
-          <Button>Delete</Button>
+          <Button onClick={() => handleDelete(record.key)}>Delete</Button>
         </Space>
       ),
       width: '1%',
@@ -109,18 +126,20 @@ const AllCar = () => {
   };
 
   return (
-    <Table
-      loading={isFetching}
-      columns={columns}
-      dataSource={tableData}
-      onChange={onChange}
-      pagination={{
-        current: page,
-        pageSize: metaData?.limit || 8,
-        total: metaData?.total || 0,
-        showSizeChanger: false, // Optional: Disable page size changer
-      }}
-    />
+    <>
+      <Table
+        loading={isFetching}
+        columns={columns}
+        dataSource={tableData}
+        onChange={onChange}
+        pagination={{
+          current: page,
+          pageSize: metaData?.limit || 8,
+          total: metaData?.total || 0,
+          showSizeChanger: false, // Optional: Disable page size changer
+        }}
+      />
+    </>
   );
 };
 

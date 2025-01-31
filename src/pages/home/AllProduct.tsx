@@ -87,10 +87,10 @@ const AllProduct = () => {
             </CardHeader>
             <CardContent className="p-4">
               <CardTitle className="text-xl">{product.category}</CardTitle>
-              <p className="text-gray-600 text-sm">Price: ${product.price}</p>
-              <p className="text-gray-500 text-sm">In Stock: {product.stock} units</p>
-              <p className="text-gray-400 text-xs">Added: {formatDate(product.createdAt)}</p>
-              <p className="text-gray-400 text-xs">Last Updated: {formatDate(product.updatedAt)}</p>
+              <p className="text-gray-600 text-sm text-left">Price: ${product.price}</p>
+              <p className="text-gray-500 text-sm text-left">In Stock: {product.stock} units</p>
+              <p className="text-gray-400 text-xs text-left">Added: {formatDate(product.createdAt)}</p>
+              <p className="text-gray-400 text-xs text-left">Last Updated: {formatDate(product.updatedAt)}</p>
               <Button onClick={() => handleAddToCart(product)} className="mt-4 w-full">
                 <ShoppingCart className="w-5 h-5 mr-2" />
                 Add to Cart
