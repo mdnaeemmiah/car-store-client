@@ -16,6 +16,7 @@ const UserManagement = () => {
   const [changeStatus] = useChangeStatusMutation();
   const [updateUserRole] = useUserRoleMutation(); // Mutation for updating roles
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [page, setPage] = useState(1);
   const [statuses, setStatuses] = useState<{ [key: string]: string }>({});
   const [roles, setRoles] = useState<{ [key: string]: string }>({});
