@@ -19,7 +19,8 @@ const { useBreakpoint } = Grid;
 const { Title, Text } = Typography;
 
 // Cart Drawer (Ant Design)
-const CartDrawer = ({ open, setOpen }) => {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const CartDrawer = ({ open, setOpen }:any) => {
   const dispatch = useAppDispatch();
   const cartData = useAppSelector((state) => state.cart);
 

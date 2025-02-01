@@ -34,7 +34,6 @@ const AllProduct = () => {
 
   // Ensure data is an array
   const products: ICar[] = Array.isArray(data) ? data : data?.data || [];
-  const totalItems = products.length;
 
   // Filtered Products
   const filteredProducts = products.filter((product) => {

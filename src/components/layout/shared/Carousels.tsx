@@ -30,7 +30,7 @@ const buttonStyle: React.CSSProperties = {
 };
 
 const Carousels = () => {
-  const [currentImage, setCurrentImage] = useState<string>(img1);
+  const [, setCurrentImage] = useState<string>(img1);
   const { useBreakpoint } = Grid;
   const screens = useBreakpoint();
 

@@ -16,8 +16,8 @@ const UserManagement = () => {
   const [changeStatus] = useChangeStatusMutation();
   const [updateUserRole] = useUserRoleMutation(); // Mutation for updating roles
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [page, setPage] = useState(1);
+  // // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  // const [page, setPage] = useState(1);
   const [statuses, setStatuses] = useState<{ [key: string]: string }>({});
   const [roles, setRoles] = useState<{ [key: string]: string }>({});
 
@@ -132,7 +132,7 @@ const UserManagement = () => {
       columns={columns}
       dataSource={tableData}
       pagination={{
-        current: page,
+        // current: page,
         pageSize: metaData?.limit || 8,
         total: metaData?.total || 0,
         showSizeChanger: false,
