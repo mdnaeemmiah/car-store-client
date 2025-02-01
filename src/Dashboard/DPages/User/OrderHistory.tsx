@@ -1,39 +1,62 @@
-
 import React from 'react';
-import { Space, Table } from 'antd';
+import { Space, Table, Tag } from 'antd';
 import type { TableProps } from 'antd';
 
 interface DataType {
   key: string;
-  name: string;
-  age: number;
-  address: string;
-  tags: string[];
+  productImage: string;
+  productName: string;
+  price: number;
+  status: string;
+  orderDate: string;
 }
 
 const columns: TableProps<DataType>['columns'] = [
   {
-    title: 'Car Image',
-    dataIndex: 'name',
-    key: 'name',
-    render: (text) => <a>{text}</a>,
+    title: 'Product Image',
+    dataIndex: 'productImage',
+    key: 'productImage',
+    render: (imageUrl) => (
+      <img
+        src={imageUrl}
+        alt="Product"
+        style={{ width: '50px', height: '50px', borderRadius: '4px' }}
+      />
+    ),
+  },
+  {
+    title: 'Product Name',
+    dataIndex: 'productName',
+    key: 'productName',
   },
   {
     title: 'Price',
-    dataIndex: 'age',
-    key: 'age',
+    dataIndex: 'price',
+    key: 'price',
+    render: (price) => `$${price}`,
   },
   {
-    title: 'Model',
-    dataIndex: 'address',
-    key: 'address',
+    title: 'Status',
+    dataIndex: 'status',
+    key: 'status',
+    render: (status) => {
+      let color = 'green';
+      if (status === 'Pending') color = 'orange';
+      if (status === 'Cancelled') color = 'red';
+      return <Tag color={color}>{status}</Tag>;
+    },
+  },
+  {
+    title: 'Order Date',
+    dataIndex: 'orderDate',
+    key: 'orderDate',
   },
   {
     title: 'Action',
     key: 'action',
     render: () => (
       <Space size="middle">
-        <a>Delete</a>
+        <a>Cancel</a>
       </Space>
     ),
   },
@@ -42,29 +65,37 @@ const columns: TableProps<DataType>['columns'] = [
 const data: DataType[] = [
   {
     key: '1',
-    name: 'John Brown',
-    age: 32,
-    address: 'New York No. 1 Lake Park',
-    tags: ['nice', 'developer'],
+    productImage: 'https://via.placeholder.com/50',
+    productName: 'Tesla Model S',
+    price: 79990,
+    status: 'Delivered',
+    orderDate: '2023-10-01',
   },
   {
     key: '2',
-    name: 'Jim Green',
-    age: 42,
-    address: 'London No. 1 Lake Park',
-    tags: ['loser'],
+    productImage: 'https://via.placeholder.com/50',
+    productName: 'Ford Mustang',
+    price: 55000,
+    status: 'Pending',
+    orderDate: '2023-10-05',
   },
   {
     key: '3',
-    name: 'Joe Black',
-    age: 32,
-    address: 'Sydney No. 1 Lake Park',
-    tags: ['cool', 'teacher'],
+    productImage: 'https://via.placeholder.com/50',
+    productName: 'Toyota Camry',
+    price: 30000,
+    status: 'Cancelled',
+    orderDate: '2023-09-20',
   },
 ];
 
-const OrderHistory: React.FC = () =>
-     <Table<DataType> columns={columns} dataSource={data} />;
+const OrderHistory: React.FC = () => (
+  <Table<DataType>
+    columns={columns}
+    dataSource={data}
+    pagination={{ pageSize: 5 }}
+    scroll={{ x: 'max-content' }}
+  />
+);
 
 export default OrderHistory;
-

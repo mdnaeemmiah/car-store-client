@@ -11,6 +11,8 @@ import { routeGenerator } from '@/utils/routeGenerator';
 import { createBrowserRouter } from 'react-router-dom';
 import { adminPaths } from './admin.route';
 import { userPaths } from './user.route';
+import OrderDetails from '@/pages/OrderDetails';
+import OrderVerification from '@/pages/OrderVarification';
 
 
 const router = createBrowserRouter([
@@ -49,6 +51,14 @@ const router = createBrowserRouter([
    {
     path:'/login',
     element:<Login></Login>
+   },
+   {
+    path:'/order',
+    element:<OrderDetails></OrderDetails>
+   },
+   {
+    path:'/order/verify',
+    element:<OrderVerification></OrderVerification>
    },
    {
     path:'/login',

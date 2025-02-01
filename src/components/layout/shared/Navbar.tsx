@@ -85,9 +85,15 @@ const CartDrawer = ({ open, setOpen }) => {
             <Text strong>${cartData.totalPrice.toFixed(2)}</Text>
           </Row>
 
-          <Button type="primary" block onClick={handlePlaceOrder}>
-            Place Order
-          </Button>
+          <Button
+  type="primary"
+  block
+  onClick={handlePlaceOrder}
+  className="bg-gradient-to-r from-blue-500 to-black text-white font-bold py-3 rounded-lg 
+             shadow-lg hover:from-black hover:to-blue-500 transition-all duration-300 ease-in-out"
+>
+  Place Order
+</Button>
         </>
       ) : (
         <Text type="secondary">Your cart is empty.</Text>
@@ -164,9 +170,15 @@ const CartSheet = () => {
 
         <SheetFooter className="border-t pt-4">
           <SheetClose asChild>
-            <Button className="w-full" onClick={handlePlaceOrder}>
-              Place Order
-            </Button>
+          <Button
+  type="primary"
+  block
+  onClick={handlePlaceOrder}
+  className="bg-gradient-to-r from-blue-500 to-black text-white font-bold py-3 rounded-lg 
+             shadow-lg hover:from-black hover:to-blue-500 transition-all duration-300 ease-in-out"
+>
+  Place Order
+</Button>
           </SheetClose>
         </SheetFooter>
       </SheetContent>

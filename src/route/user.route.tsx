@@ -1,7 +1,6 @@
 
-
-import OrderHistory from "@/Dashboard/DPages/User/OrderHistory";
 import UDashboard from "@/Dashboard/DPages/User/UDashboard";
+import OrderDetails from "@/pages/OrderDetails";
 
 
 export const userPaths=[
@@ -12,7 +11,12 @@ export const userPaths=[
     },
     {
         name: 'Order History ',
-        path: 'order-history',
-        element: <OrderHistory></OrderHistory>
+        path: 'order',
+        element: <OrderDetails></OrderDetails>
     },
+    // {
+    //     name: 'Track My Order',
+    //     path: 'order/verify',
+    //     element: <OrderVerification></OrderVerification>
+    // },
 ]
