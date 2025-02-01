@@ -1,4 +1,5 @@
 import { Collapse, Row, Col } from 'antd';
+import img1 from '../../assets/images/img13.jpeg'
 
 const { Panel } = Collapse;
 
@@ -67,7 +68,7 @@ const Accordion = () => {
       {/* Image Section */}
       <Col xs={24} md={12} style={{ textAlign: 'center', margin: '0 auto' }}> {/* mx-auto equivalent */}
         <img
-          src="src/assets/images/img13.jpeg" // Replace with your image URL
+          src={img1} // Replace with your image URL
           alt="Car Store"
           style={{ maxWidth: '100%', height: 'auto', borderRadius: '10px', margin: '0 auto' }} // mx-auto applied to the image
         />

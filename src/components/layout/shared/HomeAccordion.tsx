@@ -1,5 +1,9 @@
 
 import { Collapse } from 'antd';
+import img1 from '../../../assets/images/img3.avif'
+import img2 from '../../../assets/images/img10.avif'
+import img3 from '../../../assets/images/img4.avif'
+import img4 from '../../../assets/images/img5.avif'
 
 const { Panel } = Collapse;
 
@@ -9,7 +13,7 @@ const HomeAccordion = () => {
       key: '1',
       question: 'What types of cars do you sell?',
       answer: 'We sell a variety of cars, including sedans, SUVs, trucks, and electric vehicles from leading manufacturers.',
-      image: 'src/assets/images/img5.avif', // Add image URL for each question
+      image: img1, // Add image URL for each question
     },
     {
       key: '2',
@@ -21,25 +25,25 @@ const HomeAccordion = () => {
       key: '3',
       question: 'Can I schedule a test drive?',
       answer: 'Absolutely! You can schedule a test drive online or visit our store to experience the car before purchasing.',
-      image: 'src/assets/images/img5.avif',
+      image: img2,
     },
     {
       key: '4',
       question: 'What is your warranty policy?',
       answer: 'We offer a standard manufacturer warranty and additional extended warranty packages to suit your needs.',
-      image: 'src/assets/images/img11.avif',
+      image: img3,
     },
     {
       key: '5',
       question: 'Do you accept trade-ins?',
       answer: 'Yes, we accept trade-ins. Our experts will assess your car and offer you a fair trade-in value.',
-      image: 'src/assets/images/img4.avif',
+      image: img4,
     },
     {
       key: '6',
       question: 'How do I contact your support team?',
       answer: 'You can reach our support team by calling +123 456 789 or emailing us at support@carstore.com.',
-      image: 'src/assets/images/img5.avif',
+      image: img1,
     },
   ];
 

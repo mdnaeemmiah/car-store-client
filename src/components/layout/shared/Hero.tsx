@@ -1,19 +1,20 @@
 import { Button, Card, Typography } from "antd";
 import { NavLink } from "react-router-dom";
 import { CheckCircleOutlined } from "@ant-design/icons";
+import iamg1 from '../../../assets/images/img12.jpeg'
 
 const { Title, Paragraph } = Typography;
 
 export default function Hero() {
   return (
-    <div className="flex flex-col items-center text-center px-4 pt-10">
+    <div className="flex flex-col items-center text-center px-4">
       {/* Title */}
       <h2
         style={{
           fontSize: "30px",
           fontWeight: "bold",
           color: "#1677FF",
-          marginBottom: "10px",
+          marginBottom: "25px",
           textShadow: "2px 2px 20px rgba(0, 25, 0, 0.8)", // Shadow effect
         }}
       >
@@ -21,12 +22,12 @@ export default function Hero() {
       </h2>
 
       {/* Hero Content */}
-      <div className="flex justify-center items-center min-h-screen bg-gray-100 px-4">
+      <div className="flex justify-center items-center  bg-gray-100 px-4 w-full">
         <div className="max-w-screen-xl w-full flex flex-col lg:flex-row items-center gap-12">
           {/* Image Section */}
           <div className="flex-1 flex justify-center">
             <img
-              src="src/assets/images/img4.avif"
+              src={iamg1}
               alt="Hero"
               className="rounded-xl shadow-lg w-full max-w-md h-[550px] object-cover"
             />
@@ -63,10 +64,10 @@ export default function Hero() {
 
               {/* Button */}
               <Button type="primary" size="large" className="mt-10">
-  <NavLink to="/about" className="text-white no-underline">
-    Learn More
-  </NavLink>
-</Button>
+                <NavLink to="/about" className="text-white no-underline">
+                  Learn More
+                </NavLink>
+              </Button>
             </Card>
           </div>
         </div>
@@ -74,3 +75,4 @@ export default function Hero() {
     </div>
   );
 }
+

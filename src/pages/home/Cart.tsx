@@ -1,6 +1,13 @@
 import { Card, Avatar } from 'antd';
 
+import img1 from '../../assets/images/keramot.jpg'
+import img2 from '../../assets/images/laila.jpg'
+import img3 from '../../assets/images/na.jpg'
+
+
 const { Meta } = Card;
+
+
 
 // Sample data for admin, manager, and staff
 const people = [
@@ -9,35 +16,35 @@ const people = [
     name: 'Naeem',
     role: 'Admin',
     description: 'Senior Developer | Tech Enthusiast | Problem Solver',
-    image: 'src/assets/images/na.jpg',
+    image: img1,
   },
   {
     id: 2,
     name: 'John Doe',
     role: 'Manager',
     description: 'Project Manager | Team Leader',
-    image: 'src/assets/images/laila.jpg',
+    image: img2,
   },
   {
     id: 3,
     name: 'Jane Smith',
     role: 'Staff',
     description: 'Frontend Developer | UI/UX Enthusiast',
-    image: 'src/assets/images/photo_2024-03-28_20-12-13 (2).jpg',
+    image: img3,
   },
   {
     id: 4,
     name: 'Alex Brown',
     role: 'Staff',
     description: 'Backend Developer | Database Specialist',
-    image: 'src/assets/images/na.jpg',
+    image: img1,
   },
   {
     id: 5,
     name: 'Emily White',
     role: 'Manager',
     description: 'Operations Manager | Business Strategist',
-    image: 'https://via.placeholder.com/100',
+    image: img2,
   },
 ];
 

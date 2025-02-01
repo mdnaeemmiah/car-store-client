@@ -9,6 +9,13 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 
+import imag1 from '../../../assets/images/img6.avif'
+import imag2 from '../../../assets/images/img5.avif'
+import imag3 from '../../../assets/images/img4.avif'
+import imag4 from '../../../assets/images/img3.avif'
+import imag5 from '../../../assets/images/img13.jpeg'
+
+
 interface Slide {
   image: string;
   title: string;
@@ -17,27 +24,27 @@ interface Slide {
 
 const slides: Slide[] = [
   {
-    image: "src/assets/images/img13.jpeg",
+    image: imag1,
     title: "Luxury Car",
     description: "Experience the ultimate luxury with our premium model Uniquely unleash pandemic markets via e-business applications. Collaboratively initiate interoperable technologies whereas bleeding-edge sources. .",
   },
   {
-    image: "src/assets/images/img12.jpeg",
+    image: imag2,
     title: "Sports Edition",
     description: "High-speed performance for the thrill-seekersUniquely unleash pandemic markets via e-business applications. Collaboratively initiate interoperable technologies whereas bleeding-edge sources. .",
   },
   {
-    image: "src/assets/images/img11.avif",
+    image:imag3,
     title: "SUV Model",
     description: "Spacious and comfortable for all your family adventuresUniquely unleash pandemic markets via e-business applications. Collaboratively initiate interoperable technologies whereas bleeding-edge sources. .",
   },
   {
-    image: "src/assets/images/img10.avif",
+    image: imag4,
     title: "Electric Car",
     description: "Eco-friendly driving with the latest technology Uniquely unleash pandemic markets via e-business applications. Collaboratively initiate interoperable technologies whereas bleeding-edge sources. .",
   },
   {
-    image: "src/assets/images/img6.avif",
+    image: imag5,
     title: "Convertible",
     description: "Feel the wind with our stylish convertible Uniquely unleash pandemic markets via e-business applications. Collaboratively initiate interoperable technologies whereas bleeding-edge sources.  collection.",
   },

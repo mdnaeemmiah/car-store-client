@@ -1,6 +1,11 @@
 import { Card, Avatar, Rate, Row, Col, Typography } from 'antd';
 import { StarFilled } from '@ant-design/icons';
 
+import img1 from '../../../assets/images/laila.jpg'
+import img2 from '../../../assets/images/na.jpg'
+import img3 from '../../../assets/images/keramot.jpg'
+
+
 const { Title, Text } = Typography;
 
 interface Review {
@@ -13,37 +18,37 @@ interface Review {
 const reviews: Review[] = [
   {
     name: 'John Doe',
-    image: 'src/assets/images/na.jpg',
+    image:img1,
     rating: 5,
     comment: 'Great product! Really happy with the performance and quality. Highly recommend it.',
   },
   {
     name: 'Jane Smith',
-    image: 'src/assets/images/laila.jpg',
+    image: img2,
     rating: 4,
     comment: 'Good quality, but the delivery was a bit slow. Overall, satisfied with the purchase.',
   },
   {
     name: 'Mark Johnson',
-    image: 'src/assets/images/img13.jpeg',
+    image: img3,
     rating: 5,
     comment: 'Amazing experience! Will definitely buy again. The product exceeded my expectations.',
   },
   {
     name: 'Emily Davis',
-    image: 'src/assets/images/na.jpg',
+    image: img2,
     rating: 4,
     comment: 'The product was good, but packaging could be better. Still worth it!',
   },
   {
     name: 'Mark Johnson',
-    image: 'src/assets/images/na.jpg',
+    image: img1,
     rating: 5,
     comment: 'Amazing experience! Will definitely buy again. The product exceeded my expectations.',
   },
   {
     name: 'Emily Davis',
-    image: 'src/assets/images/laila.jpg',
+    image: img3,
     rating: 4,
     comment: 'The product was good, but packaging could be better. Still worth it!',
   },

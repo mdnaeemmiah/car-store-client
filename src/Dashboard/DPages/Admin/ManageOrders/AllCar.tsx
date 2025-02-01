@@ -134,7 +134,7 @@ const AllCar = () => {
         onChange={onChange}
         pagination={{
           current: page,
-          pageSize: metaData?.limit || 8,
+          pageSize: metaData?.limit || 6,
           total: metaData?.total || 0,
           showSizeChanger: false, // Optional: Disable page size changer
         }}
