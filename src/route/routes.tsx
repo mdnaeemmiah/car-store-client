@@ -60,10 +60,10 @@ const router = createBrowserRouter([
     path:'/order/verify',
     element:<OrderVerification></OrderVerification>
    },
-   {
-    path:'/login',
-    element:<Login></Login>
-   },
+   // {
+   //  path:'/login',
+   //  element:<Login></Login>
+   // },
    {
     path:'/register',
     element:<Register></Register>

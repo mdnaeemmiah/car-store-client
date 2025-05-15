@@ -11,7 +11,7 @@ const Home = () => {
         <div>
             <Carousels></Carousels>
             <HomeAccordion></HomeAccordion>
-           <CarCarousel></CarCarousel>
+            <CarCarousel></CarCarousel>
             <CustomerReviewBanner></CustomerReviewBanner>
             <Hero></Hero>
         </div>
